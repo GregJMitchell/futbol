@@ -9,12 +9,8 @@ Starter repository for the [Turing School](https://turing.io/) Futbol project.
 
 
 
-Collaboration between:
+Collaboration between: [Connor Ferguson](https://github.com/cpfergus1), [Curtis Bartell](https://github.com/c-bartell), [Greg Mitchel](https://github.com/GregJMitchell), and [Sean Steel](https://github.com/s-steel)
 
-[Connor Ferguson](https://github.com/cpfergus1)
+Design Strategy:
 
-[Curtis Bartell](https://github.com/c-bartell)
-
-[Greg Mitchel](https://github.com/GregJMitchell)
-
-[Sean Steel](https://github.com/s-steel)
+For this project everything runs throught the `stat_tracker` file.  All of the statistics methods can be called on `stat_tracker` and in order to return the data, `stat_tracker` looks down into three other classes, the `game_manager`, `team_manager`, or `game_team_manager`.  These three classes then each have their own downstream class, `game`, `team`, and `game_teams`.  Each of the managers can reach down to their respective classes and pull out data for individual instances.  The managers can then use this data for their calculations.  This setup is like a fork, with each branch being a manager and `stat_tracker` connecting them all.  We then have the `csv_module` that is responsible for generating all the data for each manager.  This module is accessible to only the three managers and consolidates the data generation to one module instead of within each manager.
