@@ -1,20 +1,14 @@
 require_relative 'team'
+require_relative 'csv_module'
 require 'csv'
 
 class TeamManager
+  include CSVModule
   attr_reader :teams, :teams_data
   def initialize(locations, stat_tracker)
     @stat_tracker = stat_tracker
     @teams = generate_teams(locations[:teams])
     @teams_data = team_data_by_id
-  end
-
-  def generate_teams(location)
-    array = []
-    CSV.foreach(location, headers: true) do |row|
-      array << Team.new(row.to_hash)
-    end
-    array
   end
 
   def team_info(team_id)

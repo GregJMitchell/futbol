@@ -1,19 +1,13 @@
 require_relative 'game'
+require_relative 'csv_module'
 require 'csv'
 
 class GameManager
+  include CSVModule
   attr_reader :games
   def initialize(locations, stat_tracker)
     @stat_tracker = stat_tracker
     @games = generate_games(locations[:games])
-  end
-
-  def generate_games(location)
-    array = []
-    CSV.foreach(location, headers: true) do |row|
-      array << Game.new(row.to_hash)
-    end
-    array
   end
 
   def group_by_season

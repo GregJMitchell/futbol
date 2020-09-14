@@ -2,6 +2,7 @@ require_relative 'game_manager'
 require_relative 'game_team_manager'
 require_relative 'team_manager'
 
+
 class StatTracker
   attr_reader :game_team_manager, :game_manager, :team_manager
   def self.from_csv(locations)

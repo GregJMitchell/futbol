@@ -1,5 +1,6 @@
 require './test/test_helper'
 require './lib/stat_tracker'
+require 'csv_module'
 require 'pry'
 
 
@@ -22,11 +23,11 @@ class TestStatTracker <Minitest::Test
 
     assert_equal 7441, @stat_tracker.game_manager.games.length
     assert_equal 32, @stat_tracker.team_manager.teams.length
-    assert_equal 14882, @stat_tracker.game_teams_manager.game_teams.length
+    assert_equal 14882, @stat_tracker.game_team_manager.game_teams.length
   end
 
   def test_
 
-    
+
   end
 end

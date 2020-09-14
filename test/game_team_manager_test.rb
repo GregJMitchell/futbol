@@ -84,7 +84,6 @@ class GameTeamManagerTest < Minitest::Test
   def test_most_accurate_team
 
     game_team_manager = GameTeamManager.new(@locations, @stat_tracker)
-    team_1 = mock('team_1')
     game_team_manager.stubs(:team_by_id).returns('This team')
     assert_equal 'This team', game_team_manager.most_accurate_team('20132014')
   end
@@ -92,7 +91,6 @@ class GameTeamManagerTest < Minitest::Test
   def test_least_accurate_team
 
     game_team_manager = GameTeamManager.new(@locations, @stat_tracker)
-    team_1 = mock('team_1')
     game_team_manager.stubs(:team_by_id).returns('This team')
     assert_equal 'This team', game_team_manager.least_accurate_team('20132014')
   end
@@ -100,7 +98,6 @@ class GameTeamManagerTest < Minitest::Test
   def test_most_tackles
 
     game_team_manager = GameTeamManager.new(@locations, @stat_tracker)
-    team_1 = mock('team_1')
     game_team_manager.stubs(:team_by_id).returns('This team')
     assert_equal 'This team', game_team_manager.most_tackles('20132014')
   end
@@ -108,7 +105,6 @@ class GameTeamManagerTest < Minitest::Test
   def test_fewest_tackles
 
     game_team_manager = GameTeamManager.new(@locations, @stat_tracker)
-    team_1 = mock('team_1')
     game_team_manager.stubs(:team_by_id).returns('This team')
     assert_equal 'This team', game_team_manager.fewest_tackles('20132014')
   end
