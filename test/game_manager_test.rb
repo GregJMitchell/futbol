@@ -50,6 +50,31 @@ class GameManagerTest < Minitest::Test
     assert_equal [game_1, game_2, game_3, game_4, game_5], game_manager.games
   end
 
+  def test_it_can_find_all_games_for_a_team
+    game_1 = mock('game object 1')
+    game1.stubs(:home_team_id).returns('3')
+    game1.stubs(:away_team_id).returns('4')
+    game_2 = mock('game object 2')
+    game2.stubs(:home_team_id).returns('5')
+    game2.stubs(:away_team_id).returns('3')
+    game_3 = mock('game object 3')
+    game3.stubs(:home_team_id).returns('3')
+    game3.stubs(:away_team_id).returns('1')
+    game_4 = mock('game object 4')
+    game4.stubs(:home_team_id).returns('4')
+    game4.stubs(:away_team_id).returns('5')
+    game_5 = mock('game object 5')
+    game5.stubs(:home_team_id).returns('5')
+    game5.stubs(:away_team_id).returns('1')
+    stat_tracker = mock('A totally legit stat_tracker')
+    game_array = [game1, game2, game3, game4, game5]
+    CSV.stubs(:foreach).returns(nil)
+    game_manager = GameManager.new('A totally legit path', stat_tracker)
+    game_manager.stubs(:games).returns(game_array)
+
+    assert_equal [game1, game2, game3], game_manager.games_by_team('3')
+  end
+
   def test_it_can_find_highest_total_score
     assert_equal 9, @mocked_game_manager.highest_total_score
   end
