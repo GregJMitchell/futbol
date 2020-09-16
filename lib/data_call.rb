@@ -22,6 +22,12 @@ module DataCall
     end
   end
 
+  def gather_game_team_info(game_ids)
+    game_ids.map do |game_id|
+      game_team_info(game_id)
+    end
+  end
+
   def group_by_season
     @games.group_by { |game| game.season }.uniq
   end

@@ -185,24 +185,26 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_it_can_gather_all_game_team_info_for_a_set_of_game_ids
     game_team1 = mock('game_team 1')
-    game_team1.stubs(:game_id).returns('1')
+    game_team1.stubs(:game_id).returns('10')
     game_team1.stubs(:team_id).returns('1')
     game_team1.stubs(:game_team_info).returns('game_team1 info')
     game_team2 = mock('game_team 2')
-    game_team2.stubs(:game_id).returns('2')
+    game_team2.stubs(:game_id).returns('20')
     game_team2.stubs(:team_id).returns('1')
+    game_team2.stubs(:game_team_info).returns('game_team2 info')
     game_team3 = mock('game_team 3')
-    game_team3.stubs(:game_id).returns('3')
+    game_team3.stubs(:game_id).returns('30')
     game_team3.stubs(:team_id).returns('2')
     game_team4 = mock('game_team 4')
-    game_team4.stubs(:game_id).returns('1')
+    game_team4.stubs(:game_id).returns('10')
     game_team4.stubs(:game_team_info).returns('game_team4 info')
     game_team4.stubs(:team_id).returns('2')
     game_team5 = mock('game_team 5')
-    game_team5.stubs(:game_id).returns('2')
+    game_team5.stubs(:game_id).returns('20')
     game_team5.stubs(:team_id).returns('3')
+    game_team5.stubs(:game_team_info).returns('game_team5 info')
     stat_tracker = mock('A totally legit stat_tracker')
-    game_team_array = [game_team1, game_team2, game_team3, game_team4]
+    game_team_array = [game_team1, game_team2, game_team3, game_team4, game_team5]
     CSV.stubs(:foreach).returns(nil)
     game_team_manager = GameTeamManager.new('A totally legit path', stat_tracker)
     game_team_manager.stubs(:game_teams).returns(game_team_array)
@@ -214,7 +216,8 @@ class GameTeamManagerTest < Minitest::Test
         '1' => 'game_team2 info',
         '3' => 'game_team5 info'
     }
+    expected = [pair1, pair2]
 
-    assert_equal expected, game_team_manager.gather_game_team_info(['1', '2'])
+    assert_equal expected, game_team_manager.gather_game_team_info(['10', '20'])
   end
 end
