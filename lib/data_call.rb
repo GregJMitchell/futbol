@@ -44,15 +44,23 @@ module DataCall
     end
   end
 
+  def game_teams_by_season_helper(team_id, game_team_infos, game_id)
+    game_team_infos.find do |pair|
+      pair[team_id][:game_id] == game_id
+    end
+  end
+
+  def game_teams_by_season_helper_2(game_ids, team_id, game_team_infos)
+    game_ids.map do |game_id|
+      game_teams_by_season_helper(team_id, game_team_infos, game_id)
+    end
+  end
+
   def game_teams_by_season(team_id)
     game_team_infos = gather_game_team_info(team_id)
     seasons = game_ids_by_season(team_id)
     seasons.each do |season, game_ids|
-      seasons[season] = game_ids.map do |game_id|
-        game_team_infos.find do |pair|
-          pair[team_id][:game_id] == game_id
-        end
-      end
+      seasons[season] = game_teams_by_season_helper_2(game_ids, team_id, game_team_infos)
     end
     seasons
   end
