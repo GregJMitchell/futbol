@@ -183,7 +183,7 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal expected, game_team_manager.game_team_info('1')
   end
 
-  def test_it_can_gather_all_game_team_info_for_a_team_id
+  def test_it_can_gather_all_game_team_info_for_a_set_of_game_ids
     game_team1 = mock('game_team 1')
     game_team1.stubs(:game_id).returns('1')
     game_team1.stubs(:team_id).returns('1')
@@ -215,6 +215,6 @@ class GameTeamManagerTest < Minitest::Test
         '3' => 'game_team5 info'
     }
 
-    assert_equal expected, game_team_manager.gather_game_team_info('1')
+    assert_equal expected, game_team_manager.gather_game_team_info(['1', '2'])
   end
 end
