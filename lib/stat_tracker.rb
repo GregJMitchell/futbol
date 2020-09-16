@@ -105,6 +105,10 @@ class StatTracker
     game_team_manager.gather_game_team_info(game_ids)
   end
 
+  def get_teams
+    @team_manager.teams
+  end
+
   #League Stats
 
   def count_of_teams

@@ -1,6 +1,6 @@
 module DataCall
-  def team_data
-    @stat_tracker.team_manager.teams
+  def get_teams
+    @stat_tracker.get_teams
   end
 
   def games_by_team(team_id)
