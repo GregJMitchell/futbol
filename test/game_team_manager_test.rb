@@ -182,4 +182,39 @@ class GameTeamManagerTest < Minitest::Test
     }
     assert_equal expected, game_team_manager.game_team_info('1')
   end
+
+  def test_it_can_gather_all_game_team_info_for_a_team_id
+    game_team1 = mock('game_team 1')
+    game_team1.stubs(:game_id).returns('1')
+    game_team1.stubs(:team_id).returns('1')
+    game_team1.stubs(:game_team_info).returns('game_team1 info')
+    game_team2 = mock('game_team 2')
+    game_team2.stubs(:game_id).returns('2')
+    game_team2.stubs(:team_id).returns('1')
+    game_team3 = mock('game_team 3')
+    game_team3.stubs(:game_id).returns('3')
+    game_team3.stubs(:team_id).returns('2')
+    game_team4 = mock('game_team 4')
+    game_team4.stubs(:game_id).returns('1')
+    game_team4.stubs(:game_team_info).returns('game_team4 info')
+    game_team4.stubs(:team_id).returns('2')
+    game_team5 = mock('game_team 5')
+    game_team5.stubs(:game_id).returns('2')
+    game_team5.stubs(:team_id).returns('3')
+    stat_tracker = mock('A totally legit stat_tracker')
+    game_team_array = [game_team1, game_team2, game_team3, game_team4]
+    CSV.stubs(:foreach).returns(nil)
+    game_team_manager = GameTeamManager.new('A totally legit path', stat_tracker)
+    game_team_manager.stubs(:game_teams).returns(game_team_array)
+    pair1 = {
+        '1' => 'game_team1 info',
+        '2' => 'game_team4 info'
+    }
+    pair2 = {
+        '1' => 'game_team2 info',
+        '3' => 'game_team5 info'
+    }
+
+    assert_equal expected, game_team_manager.gather_game_team_info('1')
+  end
 end
