@@ -243,4 +243,17 @@ class TestStatTracker < Minitest::Test
   def test_it_can_count_teams
     assert_equal 32, @stat_tracker.count_of_teams
   end
+
+  def test_it_can_find_all_games_for_a_team
+    locations =  {
+      games: './fixtures/team_stats_fixture_games.csv',
+      teams: './data/teams.csv',
+      game_teams: './fixtures/team_stats_fixture_game_teams.csv'
+    }
+    stat_tracker = StatTracker.new(locations)
+    games = stat_tracker.games
+    expected = games[0..6]
+
+    assert_equal expected, stat_tracker.games_by_team('17')
+  end
 end
