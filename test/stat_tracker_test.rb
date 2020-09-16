@@ -34,18 +34,6 @@ class TestStatTracker < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_it_can_fetch_game_ids_for_a_team
-    locations =  {
-      games: './fixtures/fixture_games.csv',
-      teams: './fixtures/teams_init_test.csv',
-      game_teams: './fixtures/fixture_game_teams.csv'
-    }
-    stat_tracker = StatTracker.new(locations)
-    expected = 17
-
-    assert_equal expected, stat_tracker.game_ids_by_team('17').length
-  end
-
   def test_it_can_fetch_game_team_info
     locations =  {
       games: './fixtures/fixture_games.csv',
@@ -242,5 +230,35 @@ class TestStatTracker < Minitest::Test
 
   def test_it_can_count_teams
     assert_equal 32, @stat_tracker.count_of_teams
+  end
+
+  def test_it_can_find_all_games_for_a_team
+    locations =  {
+      games: './fixtures/team_stats_fixture_games.csv',
+      teams: './data/teams.csv',
+      game_teams: './fixtures/team_stats_fixture_game_teams.csv'
+    }
+    stat_tracker = StatTracker.new(locations)
+    games = stat_tracker.game_manager.games
+    expected = games[0..6]
+
+    assert_equal expected, stat_tracker.games_by_team('17')
+  end
+
+  def test_it_can_gather_game_teams_info
+    locations =  {
+      games: './fixtures/team_stats_fixture_games.csv',
+      teams: './data/teams.csv',
+      game_teams: './fixtures/team_stats_fixture_game_teams.csv'
+    }
+    stat_tracker = StatTracker.new(locations)
+    game_teams = stat_tracker.game_team_manager.game_teams
+    game_ids = ['2012030161', '2012030162']
+    expected = {
+      '17' => game_teams[0].game_team_info,
+      '24' => game_teams[1].game_team_info
+    }
+    assert_equal 2, stat_tracker.gather_game_team_info(game_ids).length
+    assert_equal expected, stat_tracker.gather_game_team_info(game_ids)[0]
   end
 end

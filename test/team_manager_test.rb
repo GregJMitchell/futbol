@@ -74,13 +74,39 @@ class TeamManagerTest < Minitest::Test
     assert_equal team3.team_info, team_manager.find_team('3').team_info
   end
 
+  def test_it_can_find_all_games_for_a_team
+    game1 = mock('game object 1')
+    game1.stubs(:home_team_id).returns('3')
+    game1.stubs(:away_team_id).returns('4')
+    game2 = mock('game object 2')
+    game2.stubs(:home_team_id).returns('5')
+    game2.stubs(:away_team_id).returns('3')
+    game3 = mock('game object 3')
+    game3.stubs(:home_team_id).returns('3')
+    game3.stubs(:away_team_id).returns('1')
+    stat_tracker = mock('A totally legit stat_tracker')
+    game_array = [game1, game2, game3]
+    CSV.stubs(:foreach).returns(nil)
+    team_manager = TeamManager.new('A totally legit path', stat_tracker)
+    stat_tracker.stubs(:games_by_team).returns([game1, game2, game3])
+
+    assert_equal [game1, game2, game3], team_manager.games_by_team('3')
+  end
+
   def test_it_can_fetch_game_ids_for_a_team
+    game1 = mock('game object 1')
+    game1.stubs(:game_id).returns('1')
+    game2 = mock('game object 2')
+    game2.stubs(:game_id).returns('2')
+    game3 = mock('game object 3')
+    game3.stubs(:game_id).returns('3')
     stat_tracker = mock('A totally legit stat_tracker')
     stat_tracker.stubs(:game_ids_by_team).returns('An array of game ids')
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
+    team_manager.stubs(:games_by_team).returns([game1,game2, game3])
 
-    assert_equal 'An array of game ids', team_manager.game_ids_by_team('1')
+    assert_equal ['1', '2', '3'], team_manager.game_ids_by_team('3')
   end
 
   def test_it_can_fetch_game_team_info
@@ -89,7 +115,7 @@ class TeamManagerTest < Minitest::Test
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
 
-    assert_equal 'A hash of game teams', team_manager.game_team_info('123')
+    assert_equal 'A hash of game teams', team_manager.game_team_info(['123'])
   end
 
   def test_it_can_fetch_game_info
@@ -105,22 +131,25 @@ class TeamManagerTest < Minitest::Test
     stat_tracker = mock('A totally legit stat_tracker')
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
-    team_manager.stubs(:game_team_info).returns('A hash of game_team info')
-    game_ids = ['2323232', '2323233']
-    team_manager.stubs(:game_ids_by_team).returns(game_ids)
-    expected = ['A hash of game_team info', 'A hash of game_team info']
+    team_manager.stubs(:game_ids_by_team).returns(['gid1', 'gid2'])
+    stat_tracker.stubs(:gather_game_team_info).returns(['gtinfo1', 'gtinfo2'])
 
-    assert_equal expected, team_manager.gather_game_team_info('1')
+    assert_equal ['gtinfo1', 'gtinfo2'], team_manager.gather_game_team_info('1')
   end
 
   def test_it_can_gather_all_game_info_for_a_team_id
     stat_tracker = mock('A totally legit stat_tracker')
+    game1 = mock('game 1')
+    game1.stubs(:game_info).returns('game 1 info')
+    game2 = mock('game 2')
+    game2.stubs(:game_info).returns('game 2 info')
+    game3 = mock('game 3')
+    game3.stubs(:game_info).returns('game 3 info')
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
     team_manager.stubs(:game_info).returns('A hash of game info')
-    game_ids = ['2323232', '2323233']
-    team_manager.stubs(:game_ids_by_team).returns(game_ids)
-    expected = ['A hash of game info', 'A hash of game info']
+    team_manager.stubs(:games_by_team).returns([game1, game2, game3])
+    expected = ['game 1 info', 'game 2 info', 'game 3 info']
 
     assert_equal expected, team_manager.gather_game_info('1')
   end
@@ -413,11 +442,15 @@ class TeamManagerTest < Minitest::Test
       '20142015' => [4]
     }
     team_manager.stubs(:game_ids_by_season).returns(seasons)
-    team_manager.stubs(:game_team_info).returns('game_team info')
+    gt_info1 = { '1' => {game_id: 1}, '2' => 'stuff'}
+    gt_info2 = { '1' => {game_id: 2}, '2' => 'stuff'}
+    gt_info3 = { '1' => {game_id: 3}, '2' => 'stuff'}
+    gt_info4 = { '1' => {game_id: 4}, '2' => 'stuff'}
+    team_manager.stubs(:gather_game_team_info).returns([gt_info1, gt_info2, gt_info3, gt_info4])
     expected = {
-      '20122013' => ['game_team info', 'game_team info'],
-      '20132014' => ['game_team info'],
-      '20142015' => ['game_team info']
+      '20122013' => [gt_info1, gt_info2],
+      '20132014' => [gt_info3],
+      '20142015' => [gt_info4]
     }
 
     assert_equal expected, team_manager.game_teams_by_season('1')

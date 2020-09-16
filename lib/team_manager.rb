@@ -14,8 +14,12 @@ class TeamManager
     teams.find { |team| team.team_id == id }
   end
 
+  def games_by_team(id)
+    stat_tracker.games_by_team(id)
+  end
+
   def game_ids_by_team(id)
-    stat_tracker.game_ids_by_team(id)
+    games_by_team(id).map(&:game_id)
   end
 
   def game_team_info(game_id)
@@ -27,15 +31,11 @@ class TeamManager
   end
 
   def gather_game_team_info(id)
-    game_ids_by_team(id).map do |game_id|
-      game_team_info(game_id)
-    end
+    stat_tracker.gather_game_team_info(game_ids_by_team(id))
   end
 
   def gather_game_info(id)
-    game_ids_by_team(id).map do |game_id|
-      game_info(game_id)
-    end
+    games_by_team(id).map(&:game_info)
   end
 
   def most_goals_scored(id)
