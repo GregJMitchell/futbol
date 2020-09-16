@@ -252,13 +252,13 @@ class TestStatTracker < Minitest::Test
       game_teams: './fixtures/team_stats_fixture_game_teams.csv'
     }
     stat_tracker = StatTracker.new(locations)
-    game_teams = stat_tracker.game_teams
+    game_teams = stat_tracker.game_team_manager.game_teams
     game_ids = ['2012030161', '2012030162']
     expected = {
       '17' => game_teams[0].game_team_info,
       '24' => game_teams[1].game_team_info
     }
-    assert_equal 2, stat_tracker.gather_game_team_info(game_ids)
+    assert_equal 2, stat_tracker.gather_game_team_info(game_ids).length
     assert_equal expected, stat_tracker.gather_game_team_info(game_ids)[0]
   end
 end
