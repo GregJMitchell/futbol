@@ -3,10 +3,6 @@ module DataCall
     @stat_tracker.team_manager.teams
   end
 
-  def game_ids_by_team(team_id)
-    game_teams.select { |game_team| game_team.team_id == team_id }.map(&:game_id)
-  end
-
   def games_by_team(team_id)
     games.select do |game|
       game.home_team_id == team_id || game.away_team_id == team_id

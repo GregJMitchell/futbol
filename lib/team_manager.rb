@@ -19,8 +19,12 @@ class TeamManager
   end
 
   def game_ids_by_team(id)
-    stat_tracker.game_ids_by_team(id)
+    games_by_team(id).map(&:game_id)
   end
+
+  # def game_ids_by_team(id)
+  #   stat_tracker.game_ids_by_team(id)
+  # end
 
   def game_team_info(game_id)
     stat_tracker.game_team_info(game_id)

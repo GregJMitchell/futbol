@@ -34,18 +34,6 @@ class TestStatTracker < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_it_can_fetch_game_ids_for_a_team
-    locations =  {
-      games: './fixtures/fixture_games.csv',
-      teams: './fixtures/teams_init_test.csv',
-      game_teams: './fixtures/fixture_game_teams.csv'
-    }
-    stat_tracker = StatTracker.new(locations)
-    expected = 17
-
-    assert_equal expected, stat_tracker.game_ids_by_team('17').length
-  end
-
   def test_it_can_fetch_game_team_info
     locations =  {
       games: './fixtures/fixture_games.csv',

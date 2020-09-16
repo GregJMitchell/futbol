@@ -94,12 +94,19 @@ class TeamManagerTest < Minitest::Test
   end
 
   def test_it_can_fetch_game_ids_for_a_team
+    game1 = mock('game object 1')
+    game1.stubs(:game_id).returns('1')
+    game2 = mock('game object 2')
+    game2.stubs(:game_id).returns('2')
+    game3 = mock('game object 3')
+    game3.stubs(:game_id).returns('3')
     stat_tracker = mock('A totally legit stat_tracker')
     stat_tracker.stubs(:game_ids_by_team).returns('An array of game ids')
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
+    team_manager.stubs(:games_by_team).returns([game1,game2, game3])
 
-    assert_equal 'An array of game ids', team_manager.game_ids_by_team('1')
+    assert_equal ['1', '2', '3'], team_manager.game_ids_by_team('3')
   end
 
   def test_it_can_fetch_game_team_info
