@@ -4,11 +4,11 @@ require_relative 'team_manager'
 
 class StatTracker
   attr_reader :game_team_manager, :game_manager, :team_manager
-  def self.from_csv(locations) # I need a test
+  def self.from_csv(locations)
     StatTracker.new(locations)
   end
 
-  def initialize(locations) # I maybe need a test?
+  def initialize(locations)
     load_managers(locations)
   end
 
@@ -93,6 +93,18 @@ class StatTracker
     team_manager.worst_season(team_id)
   end
 
+  def team_data
+    team_manager.team_data_by_id
+  end
+
+  def games_by_team(team_id)
+    game_manager.games_by_team(team_id)
+  end
+
+  def gather_game_team_info(game_ids)
+    game_team_manager.gather_game_team_info(game_ids)
+  end
+
   #League Stats
 
   def count_of_teams
@@ -146,17 +158,5 @@ class StatTracker
 
   def fewest_tackles(season_id)
     team_info(@game_team_manager.fewest_tackles(season_id))['team_name']
-  end
-
-  def team_data
-    team_manager.team_data_by_id
-  end
-
-  def games_by_team(team_id)
-    game_manager.games_by_team(team_id)
-  end
-
-  def gather_game_team_info(game_ids)
-    game_team_manager.gather_game_team_info(game_ids)
   end
 end
