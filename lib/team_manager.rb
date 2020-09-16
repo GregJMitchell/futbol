@@ -14,6 +14,10 @@ class TeamManager
     teams.find { |team| team.team_id == id }
   end
 
+  def games_by_team(id)
+    stat_tracker.games_by_team(id)
+  end
+
   def game_ids_by_team(id)
     stat_tracker.game_ids_by_team(id)
   end
