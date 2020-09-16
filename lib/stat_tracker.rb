@@ -155,4 +155,8 @@ class StatTracker
   def team_data
     team_manager.team_data_by_id
   end
+
+  def games_by_team(team_id)
+    game_manager.games_by_team(team_id)
+  end
 end

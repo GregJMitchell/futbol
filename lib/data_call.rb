@@ -4,7 +4,7 @@ module DataCall
   end
 
   def game_ids_by_team(team_id)
-    game_teams.select { |game_team| game_team.team_id == id }.map(&:game_id)
+    game_teams.select { |game_team| game_team.team_id == team_id }.map(&:game_id)
   end
 
   def games_by_team(team_id)

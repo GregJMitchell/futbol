@@ -251,7 +251,7 @@ class TestStatTracker < Minitest::Test
       game_teams: './fixtures/team_stats_fixture_game_teams.csv'
     }
     stat_tracker = StatTracker.new(locations)
-    games = stat_tracker.games
+    games = stat_tracker.game_manager.games
     expected = games[0..6]
 
     assert_equal expected, stat_tracker.games_by_team('17')
