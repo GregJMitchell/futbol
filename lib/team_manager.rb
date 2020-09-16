@@ -34,10 +34,7 @@ class TeamManager
     stat_tracker.gather_game_team_info(game_ids_by_team(id))
   end
 
-  def gather_game_info(id) # I'm after gather_game_team_info
-    # game_ids_by_team(id).map do |game_id| # games_by_team(id).map(&:game_info)
-    #   game_info(game_id)
-    # end
+  def gather_game_info(id)
     games_by_team(id).map(&:game_info)
   end
 

@@ -442,11 +442,15 @@ class TeamManagerTest < Minitest::Test
       '20142015' => [4]
     }
     team_manager.stubs(:game_ids_by_season).returns(seasons)
-    team_manager.stubs(:game_team_info).returns('game_team info')
+    gt_info1 = { '1' => {game_id: 1}, '2' => 'stuff'}
+    gt_info2 = { '1' => {game_id: 2}, '2' => 'stuff'}
+    gt_info3 = { '1' => {game_id: 3}, '2' => 'stuff'}
+    gt_info4 = { '1' => {game_id: 4}, '2' => 'stuff'}
+    team_manager.stubs(:gather_game_team_info).returns([gt_info1, gt_info2, gt_info3, gt_info4])
     expected = {
-      '20122013' => ['game_team info', 'game_team info'],
-      '20132014' => ['game_team info'],
-      '20142015' => ['game_team info']
+      '20122013' => [gt_info1, gt_info2],
+      '20132014' => [gt_info3],
+      '20142015' => [gt_info4]
     }
 
     assert_equal expected, team_manager.game_teams_by_season('1')
