@@ -115,7 +115,7 @@ class TeamManagerTest < Minitest::Test
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
 
-    assert_equal 'A hash of game teams', team_manager.game_team_info('123')
+    assert_equal 'A hash of game teams', team_manager.game_team_info(['123'])
   end
 
   def test_it_can_fetch_game_info
@@ -131,12 +131,10 @@ class TeamManagerTest < Minitest::Test
     stat_tracker = mock('A totally legit stat_tracker')
     CSV.stubs(:foreach).returns(nil)
     team_manager = TeamManager.new('A totally legit path', stat_tracker)
-    team_manager.stubs(:game_team_info).returns('A hash of game_team info')
     game_ids = ['2323232', '2323233']
-    team_manager.stubs(:game_ids_by_team).returns(game_ids)
-    expected = ['A hash of game_team info', 'A hash of game_team info']
+    stat_tracker.stubs(:game_ids_by_team).returns([gtinfo1, gtinfo2])
 
-    assert_equal expected, team_manager.gather_game_team_info('1')
+    assert_equal [gtinfo1, gtinfo2], team_manager.gather_game_team_info(game_ids)
   end
 
   def test_it_can_gather_all_game_info_for_a_team_id
