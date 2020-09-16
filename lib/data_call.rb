@@ -33,7 +33,7 @@ module DataCall
   end
 
   def game_info(game_id)
-    games.find {|game| game.game_id == game_id }.game_info
+    games.find { |game| game.game_id == game_id }.game_info
   end
 
   def game_ids_by_season(team_id)
